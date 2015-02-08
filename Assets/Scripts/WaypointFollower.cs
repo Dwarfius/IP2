@@ -23,7 +23,13 @@ public class WaypointFollower : MonoBehaviour
 	void Start () 
     {
         wpEnum = waypoints.GetEnumerator();
-        wpEnum.MoveNext();
+        if (waypoints.Count > 1)
+        {
+            wpEnum.MoveNext();
+            transform.position = (wpEnum.Current as Waypoint).target.position;
+        }
+        else 
+            Debug.LogError("There must be at least 2 waypoints defined for the component to work.");
 	}
 
     void Update()
