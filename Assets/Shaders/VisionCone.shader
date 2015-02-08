@@ -30,8 +30,11 @@
 			{
 				v2f o;
 				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
-				float dist = length(v.vertex);
-				o.color = float4(_Color, (_Radius - dist)/_Radius); //not the best practive, but it works, and GPU doesn't care
+				fixed dist = length(v.vertex);
+				fixed a = (_Radius - dist)/_Radius;
+				if(a < 0.1)
+					a = 0.1;
+				o.color = float4(_Color, a); //not the best practive, but it works, and GPU doesn't care
 				return o;
 			}
 

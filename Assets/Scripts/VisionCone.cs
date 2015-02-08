@@ -20,7 +20,7 @@ public class VisionCone : MonoBehaviour
         m.triangles = indices;
         m.uv = uvs;
         GetComponent<MeshFilter>().mesh = m;
-        GetComponent<MeshRenderer>().material.SetFloat("_Radius", radius + 0.42f);
+        GetComponent<MeshRenderer>().material.SetFloat("_Radius", radius);
 
         PolygonCollider2D col = gameObject.AddComponent<PolygonCollider2D>();
         Vector2[] points = { vertices[0], vertices[2], vertices[1], vertices[3] };
