@@ -95,10 +95,11 @@ public class WaypointFollower : MonoBehaviour
                 Gizmos.color = lineColor; //then, the line between the current and the next
                 Gizmos.DrawLine(wpCurrent.target.position, wpNext.target.position);
 
-                if(wpNext.lookAtTarget) //if we have a target to look at, draw it as well
+                if(wpCurrent.lookAtTarget) //if we have a target to look at, draw it as well
                 {
                     Gizmos.color = lookAtColor;
                     Gizmos.DrawSphere(wpCurrent.lookAtTarget.position, gizmosRadius / 2);
+                    Handles.Label(wpCurrent.lookAtTarget.position - wpCurrent.target.up * 0.1f, wpCurrent.lookAtTarget.name); //creating a label for easier understanding
                     Gizmos.DrawLine(wpCurrent.target.position, wpCurrent.lookAtTarget.position);
                 }
             }
