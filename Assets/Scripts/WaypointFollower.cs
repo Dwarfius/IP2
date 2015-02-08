@@ -28,7 +28,7 @@ public class WaypointFollower : MonoBehaviour
 
     void Update()
     {
-        if(waypoints.Count > 0)
+        if(waypoints.Count > 1)
         {
             Waypoint w = wpEnum.Current as Waypoint;
             if (Vector3.Distance(transform.position, w.target.position) < 0.2f) //if we reached the waypoint
