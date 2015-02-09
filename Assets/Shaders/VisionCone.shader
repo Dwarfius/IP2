@@ -18,16 +18,20 @@
 			float3 _Color;
 			float _Radius;
 
+			struct vertexIn {
+				float4 pos : POSITION;
+			};
+
 			struct vertexOutput {
 				float4 pos : SV_POSITION;
 				float4 modelPos : TEXCOORD0;
 			};
 
-			vertexOutput vert(appdata_full v) : POSITION
+			vertexOutput vert(vertexIn v) : POSITION
 			{
 				vertexOutput o;
-				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
-				o.modelPos = v.vertex;
+				o.pos = mul(UNITY_MATRIX_MVP, v.pos);
+				o.modelPos = v.pos;
 				return o;
 			}
 
