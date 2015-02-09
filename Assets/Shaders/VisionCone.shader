@@ -13,34 +13,28 @@
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
+			#include "UnityCG.cginc"
 
 			float3 _Color;
 			float _Radius;
 
-			struct appdata {
-				float4 vertex : POSITION;
-			};
-
-			struct v2f {
+			struct vertexOutput {
 				float4 pos : SV_POSITION;
-				float4 color : COLOR;
+				float4 modelPos : TEXCOORD0;
 			};
 
-			v2f vert(appdata v) : POSITION
+			vertexOutput vert(appdata_full v) : POSITION
 			{
-				v2f o;
+				vertexOutput o;
 				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
-				fixed dist = length(v.vertex);
-				fixed a = (_Radius - dist)/_Radius;
-				if(a < 0.1)
-					a = 0.1;
-				o.color = float4(_Color, a); //not the best practive, but it works, and GPU doesn't care
+				o.modelPos = v.vertex;
 				return o;
 			}
 
-			half4 frag(v2f i) : COLOR
+			half4 frag(vertexOutput i) : COLOR
 			{
-				return i.color;
+				float len = length(i.modelPos);
+				return float4(_Color, 1 - len/_Radius);
 			}
 			ENDCG
 		}

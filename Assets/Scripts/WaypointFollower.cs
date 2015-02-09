@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 [System.Serializable]
 public class Waypoint
@@ -67,6 +69,7 @@ public class WaypointFollower : MonoBehaviour
         LookAt2D((wpEnum.Current as Waypoint).target);
     }
 
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
         if(waypoints.Count > 1)
@@ -105,7 +108,7 @@ public class WaypointFollower : MonoBehaviour
             }
         }
     }
-
+#endif
     void LookAt2D(Transform target)
     {
         Vector3 n = (target.position - transform.position).normalized;
