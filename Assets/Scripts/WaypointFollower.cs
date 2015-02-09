@@ -42,7 +42,7 @@ public class WaypointFollower : MonoBehaviour
         if(waypoints.Count > 1 && !waiting)
         {
             Waypoint w = wpEnum.Current as Waypoint;
-            if (Vector3.Distance(transform.position, w.target.position) < 0.2f) //if we reached the waypoint
+            if (Vector3.Distance(transform.position, w.target.position) < 0.01f) //if we reached the waypoint
             {
                 if (w.lookAtTarget)
                     LookAt2D(w.lookAtTarget);
