@@ -21,6 +21,7 @@ public class VisionCone : MonoBehaviour
         gameObject.AddComponent<MeshFilter>().mesh = m;
 
         gameObject.AddComponent<MeshRenderer>().material = mat;
+        //1 - 1.35, 2 - 2.21, 3 - 3.05, 4 - 4
         renderer.material.SetFloat("_Radius", 0.86f * radius + 0.515f); //this was gotten from linear regression for experimental results
 
         PolygonCollider2D col = gameObject.AddComponent<PolygonCollider2D>();
