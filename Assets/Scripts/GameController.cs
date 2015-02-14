@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour
 	public Vector2 playerPosition;
 	public float boundary;
 	public bool messagePopup;
+	public string labelText = "";
+
 
 
 
@@ -39,23 +41,34 @@ public class GameController : MonoBehaviour
 
 	void OnTriggerEnter2D (Collider2D col)
 	{
-		messagePopup = true;
+
 		if (col.gameObject.tag=="Pickup")
 		{
 
-			Destroy (col.gameObject);
+			messagePopup = true;
+			labelText = "Press Space to pickup";
+
 		}
 
+		if (col.gameObject.tag=="Pickup" && Input.GetKeyDown(KeyCode.Space))
+		{
+			Destroy(gameObject);
+		}
+
+	
 	}
+
 
 	void OnGUI()
+	
 	{
-		if (messagePopup = true)
+		if (messagePopup)
 		{
-			GUI.Label(new Rect(20,20,100,50),"Press A to pick up!");
+			GUI.Box(new Rect(140,Screen.height-50,Screen.width-300,120),(labelText));
 		}
-		messagePopup = false;
+
 	}
+
 
     void OnLevelWasLoaded(int level)
     {
