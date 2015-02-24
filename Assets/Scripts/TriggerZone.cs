@@ -11,16 +11,12 @@ public class TriggerZone : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if(tagsToReactTo.Contains(other.tag))
-        {
             onEnter.Invoke();
-        }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
         if(tagsToReactTo.Contains(other.tag))
-        {
             onExit.Invoke();
-        }
     }
 }
