@@ -7,6 +7,7 @@ public class VisionCone : MonoBehaviour
     public float radius;
     public float angle;
 
+
 	void Start () 
     {
         Mesh m = new Mesh();
@@ -29,4 +30,18 @@ public class VisionCone : MonoBehaviour
         col.points = points;
         col.isTrigger = true;
 	}
+
+	/*
+	void OnColliderHit (Collider hit)
+	{
+		
+		if (hit.gameObject.tag == "Player")
+		{
+			
+			Application.Quit();
+
+			
+		}
+}
+*/
 }
