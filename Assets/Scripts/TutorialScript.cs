@@ -8,6 +8,7 @@ public class TutorialScript : MonoBehaviour {
 	public bool messagePopup;
 	//variable which stores the text that is contained in the messagePopup
 	public string labelText = "";
+	public Texture2D popUpMessage;
 
 	// Use this for initialization
 	void Start () {
@@ -38,6 +39,7 @@ public class TutorialScript : MonoBehaviour {
 	{
 		if (messagePopup)
 		{
+			GUI.DrawTexture(new Rect(100,100,100,100),popUpMessage);
 			GUI.Box(new Rect(140,Screen.height-50,Screen.width-300,120),(labelText));
 		}
 }

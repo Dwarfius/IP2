@@ -21,18 +21,26 @@ public class PlayerScript : MonoBehaviour {
 	//public int health = 100;
 	public GameObject Enemy;
 	public string PickupTag = "Pickup";
+	private Animator animator;
+	 
+
+	public int pickupCount;
+	GameObject enemy;
+
+	GameObject Button;
 
 	// Use this for initialization
 	void Start () {
 
 		playerPosition=gameObject.transform.position;
 		DontDestroyOnLoad(gameObject);
-	
+		//.
+		animator = GetComponent<Animator>();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
 
 		playerPosition.x += Input.GetAxis("Horizontal")*playerVelocity;
 		playerPosition.y += Input.GetAxis("Vertical")*playerVelocity;
@@ -47,33 +55,52 @@ public class PlayerScript : MonoBehaviour {
 		{
 			transform.position = new Vector2(boundary,playerPosition.y);
 		}
-		
+
 		if (Input.GetKeyDown(KeyCode.Space) && coin)
 		{
 			Destroy(coin);
 			messagePopup = false;
 		}
-		
-		
+		pickupCount++;
+
+		if (pickupCount == 3 && enemy)
+		{
+			Destroy(enemy);
+		}
 	}
+
+		
+
 	
 	void OnTriggerEnter2D (Collider2D col)
 	{
-		
+		Debug.Log (col.gameObject.name);
 		if (col.gameObject.tag == PickupTag)
 		{
 			
 			messagePopup = true;
 			labelText = "Press Space to pickup";
 			coin = col.gameObject;
+
 			
 		}
+
 
 		if (col.gameObject.name=="Cone")
 		{
 			Application.Quit();
 		}
-		
+		/*
+		if (col.gameObject.tag == enemy)
+		{
+			enemy = col.gameObject;
+		}
+		*/
+
+		if (col.gameObject.name=="Button")
+		{
+			animator.SetInteger("AnimState",1);
+		}
 	
 	}
 
@@ -89,4 +116,8 @@ public class PlayerScript : MonoBehaviour {
 		
 	}
 
+	void OnCollisionEnter2D(Collision2D col)
+	{
+
+	}
 }
