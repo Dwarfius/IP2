@@ -6,6 +6,8 @@ public class VisionCone : MonoBehaviour
     public Material mat;
     public float radius;
     public float angle;
+	public string coneTag = "Cone";
+
 
 
 	void Start () 
@@ -31,17 +33,13 @@ public class VisionCone : MonoBehaviour
         col.isTrigger = true;
 	}
 
-	/*
-	void OnColliderHit (Collider hit)
+	void OnTriggerEnter2D(Collider2D col)
 	{
-		
-		if (hit.gameObject.tag == "Player")
+		if (col.gameObject.tag == coneTag)
 		{
-			
+			Debug.Log ("CONE");
 			Application.Quit();
-
-			
 		}
-}
-*/
+	}
+
 }

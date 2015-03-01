@@ -6,6 +6,7 @@ public class AnimButton : MonoBehaviour {
 	private Animator animator;
 	GameObject Player;
 	public string PlayerTag = "Player";
+	public AnimDoorScript animScript;
 	// Use this for initialization
 	void Start () {
 		animator = GetComponent<Animator>();
@@ -23,6 +24,7 @@ public class AnimButton : MonoBehaviour {
 		{
 			Debug.Log ("Hello");
 	  		animator.SetInteger("AnimState",1);
-}
+		}
+		animScript.AnimateDoor();
 }
 }
