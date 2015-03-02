@@ -79,7 +79,11 @@ public class PlayerScript : MonoBehaviour
 		if (col.gameObject.tag == PickupTag)
 		{
 			messagePopup = true;
-			labelText = "Press Space to pickup";
+			labelText = "These are pick up objects. They are used to make others forget"
+				+"about you which is something you must do in order to obtain your goal." +
+					"Note that everytime you pick one of these up the guage above the enemy will decrease" +
+					"Once this guage is below a certain level it will turn from a green colour to a red colour. You can only pass through enemies to complete" +
+					"the level if their guage is red.  To pass through an enemy simply go behind an enemy and press i";
 			coin = col.gameObject;
 		}
 

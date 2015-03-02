@@ -5,6 +5,7 @@ public class HidingScript : MonoBehaviour {
 
 	public string PlayerTag = "Player";
 	public GameObject player;
+	GameObject playerHidden;
 
 
 	// Use this for initialization
@@ -16,6 +17,12 @@ public class HidingScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetKeyDown(KeyCode.I) && playerHidden)
+		{
+			player.renderer.enabled = false;
+			collider2D.enabled = true;
+		}
+
 	
 	}
 
@@ -25,8 +32,8 @@ public class HidingScript : MonoBehaviour {
 		{
 			Debug.Log ("Collision");
 
-			player.renderer.enabled = false;
-			collider2D.enabled = true;
+
+			playerHidden = col.gameObject;
 
 		}
 
