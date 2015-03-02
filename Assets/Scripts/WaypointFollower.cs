@@ -16,22 +16,20 @@ public class Waypoint
 public class WaypointFollower : MonoBehaviour 
 {
     public Color targetColor = Color.red, lineColor = Color.yellow, lookAtColor = Color.green;
-    public float gizmosRadius = 0.15f;
+    public float gizmosRadius = 0.04f;
     public float speed = 1;
+    public bool mirrored;
     public List<Waypoint> waypoints = new List<Waypoint>();
 
-    IEnumerator wpEnum;
+    int wpInd, delta = 1;
     bool waiting;
 
 	void Start () 
     {
-        wpEnum = waypoints.GetEnumerator();
         if (waypoints.Count > 1)
         {
-            wpEnum.MoveNext();
-            transform.position = (wpEnum.Current as Waypoint).target.position;
-            wpEnum.MoveNext();
-            LookAt2D((wpEnum.Current as Waypoint).target);
+            transform.position = waypoints[0].target.position;
+            LookAt2D(waypoints[1].target);
         }
         else 
             Debug.LogError("There must be at least 2 waypoints defined for the component to work.");
@@ -41,7 +39,7 @@ public class WaypointFollower : MonoBehaviour
     {
         if(waypoints.Count > 1 && !waiting)
         {
-            Waypoint w = wpEnum.Current as Waypoint;
+            Waypoint w = waypoints[wpInd];
             if (Vector3.Distance(transform.position, w.target.position) < 0.01f) //if we reached the waypoint
             {
                 if (w.lookAtTarget)
@@ -61,12 +59,15 @@ public class WaypointFollower : MonoBehaviour
         waiting = true;
         yield return new WaitForSeconds(time);
         waiting = false;
-        if (!wpEnum.MoveNext()) //if we reached the last waypoint
+        wpInd += delta;
+        if (wpInd == waypoints.Count - 1 || wpInd == 0) //if we reached the last waypoint
         {
-            wpEnum.Reset(); //we get the first waypoint
-            wpEnum.MoveNext();
+            if (mirrored)
+                delta *= -1;
+            else
+                wpInd = 0;
         }
-        LookAt2D((wpEnum.Current as Waypoint).target);
+        LookAt2D(waypoints[wpInd].target);
     }
 
 #if UNITY_EDITOR
@@ -94,7 +95,9 @@ public class WaypointFollower : MonoBehaviour
                 Gizmos.color = targetColor; //first of all, drawing the waypoint
                 Gizmos.DrawSphere(wpCurrent.target.position, gizmosRadius);
                 Handles.Label(wpCurrent.target.position - wpCurrent.target.up * 0.1f, wpCurrent.target.name + "\nWait: " + wpCurrent.waitTime); //creating a label for easier understanding
-                
+
+                if (mirrored && reachedEnd)
+                    break;
                 Gizmos.color = lineColor; //then, the line between the current and the next
                 Gizmos.DrawLine(wpCurrent.target.position, wpNext.target.position);
 
@@ -109,6 +112,7 @@ public class WaypointFollower : MonoBehaviour
         }
     }
 #endif
+
     void LookAt2D(Transform target)
     {
         Vector3 n = (target.position - transform.position).normalized;
