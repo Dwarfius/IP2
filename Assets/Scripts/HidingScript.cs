@@ -20,7 +20,7 @@ public class HidingScript : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.I) && playerHidden)
 		{
 			player.renderer.enabled = false;
-			collider2D.enabled = true;
+			player.collider2D.enabled = false;
 		}
 
 	
@@ -45,8 +45,7 @@ public class HidingScript : MonoBehaviour {
 		if (col.gameObject.tag==PlayerTag)
 		{
 			player.renderer.enabled = true;
-
-	}
-
-}
+            player.collider2D.enabled = true;
+	    }
+    }
 }
