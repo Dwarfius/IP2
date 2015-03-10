@@ -55,9 +55,6 @@ public class PlayerScript : MonoBehaviour
 			coin = col.gameObject;
 		}
 
-        if (col.gameObject.tag == "Enemy")
-            Application.LoadLevel(Application.loadedLevel);
-
 		if (col.gameObject.name=="Button")
 			animator.SetInteger("AnimState", 1);
 	}
