@@ -6,9 +6,6 @@ public class VisionCone : MonoBehaviour
     public Material mat;
     public float radius;
     public float angle;
-	public string coneTag = "Cone";
-
-
 
 	void Start () 
     {
@@ -33,13 +30,19 @@ public class VisionCone : MonoBehaviour
         col.isTrigger = true;
 	}
 
-	void OnTriggerEnter2D(Collider2D col)
-	{
-		if (col.gameObject.tag == coneTag)
-		{
-			Debug.Log ("CONE");
-			Application.Quit();
-		}
-	}
-
+    void OnTriggerStay2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "Player")
+        {
+            Vector2 dir = (col.transform.position - transform.position).normalized;
+            RaycastHit2D hit;
+            if(hit = Physics2D.Raycast(transform.position, dir, radius))
+            {
+                if(hit.transform.tag == "Player")
+                {
+                    Application.LoadLevel(Application.loadedLevel);
+                }
+            }
+        }
+    }
 }
