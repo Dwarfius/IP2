@@ -6,6 +6,7 @@ public class HidingScript : MonoBehaviour {
 	public string PlayerTag = "Player";
 	public GameObject player;
 	GameObject playerHidden;
+    public bool isPlayerHidden;
 
 
 	// Use this for initialization
@@ -34,18 +35,19 @@ public class HidingScript : MonoBehaviour {
 
 
 			playerHidden = col.gameObject;
+            isPlayerHidden = true;
 
 		}
 
 
 	}
-
+   
 	void OnTriggerExit2D(Collider2D col)
 	{
 		if (col.gameObject.tag==PlayerTag)
 		{
-			player.renderer.enabled = true;
-            player.collider2D.enabled = true;
+            isPlayerHidden = false;
 	    }
     }
+  
 }
