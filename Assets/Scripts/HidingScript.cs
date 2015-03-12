@@ -18,7 +18,7 @@ public class HidingScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.I) && playerHidden)
+		if (Input.GetKeyDown(KeyCode.I) && isPlayerHidden)
 		{
 			player.renderer.enabled = false;
 			player.collider2D.enabled = false;
@@ -47,6 +47,9 @@ public class HidingScript : MonoBehaviour {
 		if (col.gameObject.tag==PlayerTag)
 		{
             isPlayerHidden = false;
+            player.renderer.enabled = false;
+			player.collider2D.enabled = false;
+
 	    }
     }
   
