@@ -10,8 +10,8 @@ public class VisionCone : MonoBehaviour
     public Color detectColor = Color.red;
 
     Light lightCone;
-    bool detecting;
     float time;
+    Transform player = null;
 
 	void Start () 
     {
@@ -32,14 +32,21 @@ public class VisionCone : MonoBehaviour
 
     void Update()
     {
-        if(detecting)
+        if (player)
         {
-            time -= Time.deltaTime;
-            lightCone.color = Color.Lerp(normalColor, detectColor, (timeToDetect - time) / timeToDetect);
-            if(time < 0)
-                Application.LoadLevel(Application.loadedLevel);
+            Vector2 dir = (player.transform.position - transform.position).normalized;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, radius);
+            if (hit && hit.transform.tag == "Player")
+            {
+                time -= Time.deltaTime;
+                lightCone.color = Color.Lerp(normalColor, detectColor, (timeToDetect - time) / timeToDetect);
+                if(time < 0)
+                    Application.LoadLevel(Application.loadedLevel);
+                return;
+            }
         }
-        else if(time < timeToDetect)
+        
+        if(time < timeToDetect)
         {
             time += Time.deltaTime;
             lightCone.color = Color.Lerp(normalColor, detectColor, (timeToDetect - time) / timeToDetect);
@@ -49,17 +56,12 @@ public class VisionCone : MonoBehaviour
     void OnTriggerStay2D(Collider2D col)
     {
         if (col.gameObject.tag == "Player")
-        {
-            Vector2 dir = (col.transform.position - transform.position).normalized;
-            RaycastHit2D hit;
-            if (hit = Physics2D.Raycast(transform.position, dir, radius))
-                detecting = hit.transform.tag == "Player";
-        }
+            player = col.transform;
     }
 
     void OnTriggerExit2D(Collider2D col)
     {
         if (col.gameObject.tag == "Player")
-            detecting = false;
+            player = null;
     }
 }
