@@ -39,6 +39,23 @@ public class PlayerScript : MonoBehaviour
             player.renderer.enabled = true;
             player.collider2D.enabled = true;
         }
+
+        if (dy > 0)
+        {
+            animator.SetInteger("AnimState", 1);
+        }
+        else if (dy < 0)
+        {
+            animator.SetInteger("AnimState", 0);
+        }
+        else if (dx > 0)
+        {
+            animator.SetInteger("AnimState", 2);
+        }
+        else if (dx < 0)
+        {
+            animator.SetInteger("AnimState", 3);
+        }
          
 	}
 	
