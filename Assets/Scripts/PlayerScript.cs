@@ -17,19 +17,20 @@ public class PlayerScript : MonoBehaviour
     Vector2 playerPosition;
     string labelText = "";
     Transform cameraTrans;
-
+ 
 	void Start () 
     {
 		animator = GetComponent<Animator>();
         cameraTrans = transform.GetChild(0);
+        
 	}
-	
-	void Update () 
+
+    void Update()
     {
         float dx = Input.GetAxisRaw("Horizontal");
         float dy = Input.GetAxisRaw("Vertical");
 
-        if(!cameraControl)
+        if (!cameraControl)
         {
             playerPosition = transform.position;
             playerPosition.x += dx * playerVelocity * Time.deltaTime;
@@ -47,32 +48,35 @@ public class PlayerScript : MonoBehaviour
             cameraTrans.localPosition = new Vector3(pos.x, pos.y, -10);
         }
 
-		if (Input.GetKeyDown(KeyCode.Space) && coin)
-		{
-			Destroy(coin);
-			messagePopup = false;
+        if (Input.GetKeyDown(KeyCode.Space) && coin)
+        {
+            Destroy(coin);
+            messagePopup = false;
             pickupCount++;
-		}
+        }
 
         if (dy > 0)
         {
             animator.SetInteger("AnimState", 1);
+            
         }
         else if (dy < 0)
         {
             animator.SetInteger("AnimState", 0);
+            
         }
         else if (dx > 0)
         {
             animator.SetInteger("AnimState", 2);
+            
         }
         else if (dx < 0)
         {
             animator.SetInteger("AnimState", 3);
+            
         }
-         
-	}
-	
+
+    }
 	void OnTriggerEnter2D (Collider2D col)
 	{
 		if (col.gameObject.tag == PickupTag)
@@ -86,6 +90,7 @@ public class PlayerScript : MonoBehaviour
 			coin = col.gameObject;
 		}
 
+        
 		if (col.gameObject.name=="Button")
 			animator.SetInteger("AnimState", 1);
 	}
