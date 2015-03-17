@@ -7,6 +7,7 @@ public class PlayerScript : MonoBehaviour
     public float cameraTravelDist = 1;
     public int pickupCount;
 	public string PickupTag = "Pickup";
+    public string TeleportTag = "Teleport";
 	public GameObject player;
 
     [HideInInspector] public bool cameraControl;
@@ -90,9 +91,14 @@ public class PlayerScript : MonoBehaviour
 			coin = col.gameObject;
 		}
 
+        if (col.gameObject.tag == TeleportTag)
+        {
+            player.transform.position;
+        }
+
         
-		if (col.gameObject.name=="Button")
-			animator.SetInteger("AnimState", 1);
+		//if (col.gameObject.name=="Button")
+			//animator.SetInteger("AnimState", 1);
 	}
 
 	void OnTriggerExit2D(Collider2D col)
