@@ -78,19 +78,20 @@ public class PlayerScript : MonoBehaviour
         }
 
     }
-	void OnTriggerEnter2D (Collider2D col)
-	{
-		if (col.gameObject.tag == PickupTag)
-		{
-			messagePopup = true;
-			labelText = "These are pick up objects. They are used to make others forget\n"	
-				+"about you which is something you must do in order to obtain your goal.\n" +
-					"Note that everytime you pick one of these up the guage above the enemy will decrease\n" +
-					"Once this guage is below a certain level it will turn from a green colour to a red colour. You can only pass through enemies to complete\n" +
-					"the level if their guage is red.  To pass through an enemy simply go behind an enemy and press i\n";
-			coin = col.gameObject;
-		}
-
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == PickupTag)
+        {
+            messagePopup = true;
+            labelText = "These are pick up objects. They are used to make others forget\n"
+                + "about you which is something you must do in order to obtain your goal.\n" +
+                    "Note that everytime you pick one of these up the guage above the enemy will decrease\n" +
+                    "Once this guage is below a certain level it will turn from a green colour to a red colour. You can only pass through enemies to complete\n" +
+                    "the level if their guage is red.  To pass through an enemy simply go behind an enemy and press i\n";
+            coin = col.gameObject;
+        }
+    }
+        /*
         if (col.gameObject.tag == TeleportTag)
         {
             player.transform.position;
@@ -100,7 +101,7 @@ public class PlayerScript : MonoBehaviour
 		//if (col.gameObject.name=="Button")
 			//animator.SetInteger("AnimState", 1);
 	}
-
+        */
 	void OnTriggerExit2D(Collider2D col)
 	{
 		if (col.gameObject.tag == "Barrel")
