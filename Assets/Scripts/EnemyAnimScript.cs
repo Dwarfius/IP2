@@ -3,6 +3,7 @@ using System.Collections;
 
 public class EnemyAnimScript : MonoBehaviour {
 
+    public float angle;
     Animator animator;
 	// Use this for initialization
 	void Start () 
@@ -13,23 +14,22 @@ public class EnemyAnimScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        float ex = Input.GetAxis("Horizontal");
-        float ey = Input.GetAxis("Vertical");
 
+        angle = transform.rotation.z;
 
-        if (ey > 0)
+        if (angle > 0)
         {
             animator.SetInteger("AnimState", 1);
         }
-        else if (ey < 0)
+        else if (angle < 0)
         {
             animator.SetInteger("AnimState", 0);
         }
-        else if (ex > 0)
+        else if (angle > 0)
         {
             animator.SetInteger("AnimState", 2);
         }
-        else if (ex < 0)
+        else if (angle < 0)
         {
             animator.SetInteger("AnimState", 3);
         }

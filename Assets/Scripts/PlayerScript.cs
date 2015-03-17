@@ -93,7 +93,7 @@ public class PlayerScript : MonoBehaviour
             coin = col.gameObject;
         }
     
-            
+        //Teleportaion
         if (col.gameObject.tag == TeleportTag)
         {
             player.transform.position=recievingSprite.transform.position;
