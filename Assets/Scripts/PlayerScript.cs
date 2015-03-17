@@ -9,6 +9,8 @@ public class PlayerScript : MonoBehaviour
 	public string PickupTag = "Pickup";
     public string TeleportTag = "Teleport";
 	public GameObject player;
+    public GameObject recievingSprite;
+    public GameObject sendingSprite;
 
     [HideInInspector] public bool cameraControl;
 	
@@ -90,18 +92,18 @@ public class PlayerScript : MonoBehaviour
                     "the level if their guage is red.  To pass through an enemy simply go behind an enemy and press i\n";
             coin = col.gameObject;
         }
-    }
-        /*
+    
+            
         if (col.gameObject.tag == TeleportTag)
         {
-            player.transform.position;
+            player.transform.position=recievingSprite.transform.position;
         }
-
+}
         
 		//if (col.gameObject.name=="Button")
 			//animator.SetInteger("AnimState", 1);
-	}
-        */
+	
+        
 	void OnTriggerExit2D(Collider2D col)
 	{
 		if (col.gameObject.tag == "Barrel")
@@ -114,4 +116,5 @@ public class PlayerScript : MonoBehaviour
 		if (messagePopup)
 			GUI.Box(new Rect(140,Screen.height-50,Screen.width-300,200), labelText);
 	}
+
 }
