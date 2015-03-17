@@ -3,29 +3,49 @@ using System.Collections;
 public class PlayerScript : MonoBehaviour 
 {
     public float playerVelocity;
+    public float cameraVelocity = 1;
+    public float cameraTravelDist = 1;
     public int pickupCount;
 	public string PickupTag = "Pickup";
 	public GameObject player;
+
+    [HideInInspector] public bool cameraControl;
 	
     Animator animator;
     GameObject coin;
     bool messagePopup;
     Vector2 playerPosition;
     string labelText = "";
+    Transform cameraTrans;
 
 	void Start () 
     {
 		animator = GetComponent<Animator>();
+        cameraTrans = transform.GetChild(0);
 	}
 	
 	void Update () 
     {
-        float dx = Input.GetAxis("Horizontal");
-        float dy = Input.GetAxis("Vertical");
-        playerPosition = transform.position;
-		playerPosition.x += dx * playerVelocity * Time.deltaTime;
-        playerPosition.y += dy * playerVelocity * Time.deltaTime;
-        rigidbody2D.MovePosition(playerPosition);
+        float dx = Input.GetAxisRaw("Horizontal");
+        float dy = Input.GetAxisRaw("Vertical");
+
+        if(!cameraControl)
+        {
+            playerPosition = transform.position;
+            playerPosition.x += dx * playerVelocity * Time.deltaTime;
+            playerPosition.y += dy * playerVelocity * Time.deltaTime;
+            rigidbody2D.MovePosition(playerPosition);
+            if (dx != 1 && dy != 1)
+                rigidbody2D.velocity = new Vector2(0, 0);
+        }
+        else
+        {
+            Vector2 offset = new Vector2(cameraVelocity * dx * Time.deltaTime, cameraVelocity * dy * Time.deltaTime);
+            Vector2 pos = cameraTrans.localPosition;
+            if ((pos + offset).magnitude < cameraTravelDist)
+                pos += offset;
+            cameraTrans.localPosition = new Vector3(pos.x, pos.y, -10);
+        }
 
 		if (Input.GetKeyDown(KeyCode.Space) && coin)
 		{
@@ -33,11 +53,22 @@ public class PlayerScript : MonoBehaviour
 			messagePopup = false;
             pickupCount++;
 		}
-     
-        if (dx!=0 || dy!=0)
+
+        if (dy > 0)
         {
-            player.renderer.enabled = true;
-            player.collider2D.enabled = true;
+            animator.SetInteger("AnimState", 1);
+        }
+        else if (dy < 0)
+        {
+            animator.SetInteger("AnimState", 0);
+        }
+        else if (dx > 0)
+        {
+            animator.SetInteger("AnimState", 2);
+        }
+        else if (dx < 0)
+        {
+            animator.SetInteger("AnimState", 3);
         }
          
 	}
@@ -54,9 +85,6 @@ public class PlayerScript : MonoBehaviour
 					"the level if their guage is red.  To pass through an enemy simply go behind an enemy and press i\n";
 			coin = col.gameObject;
 		}
-
-        if (col.gameObject.tag == "Enemy")
-            Application.LoadLevel(Application.loadedLevel);
 
 		if (col.gameObject.name=="Button")
 			animator.SetInteger("AnimState", 1);
