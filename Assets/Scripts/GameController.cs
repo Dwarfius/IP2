@@ -9,28 +9,29 @@ public class GameController : MonoBehaviour
     public float fadeSpeed;
 
     static GameController singleton;
-
-
-    public static GameController Get() { Debug.Log(singleton); return singleton; }
+    public static GameController Get() { return singleton; }
 
     Texture2D blackText;
     float alpha = 1;
+    Color currentColor;
+    int pickupCount, enemyCount;
+    public bool CanDefeatEnemies { get; private set; }
 	
     void Awake()
     {
         singleton = this;
         OnLevelWasLoaded(1); //workaround since we still don't have main menu
         blackText = new Texture2D(1, 1);
-        blackText.SetPixel(1, 1, Color.black);
+        blackText.SetPixel(1, 1, Color.white);
         blackText.Apply();
-        Debug.Log("test" + singleton);
     }
 
     void OnGUI()
     {
         if(alpha > 0)
         {
-            GUI.color = new Color(GUI.color.r, GUI.color.g, GUI.color.b, alpha);
+            GUI.depth = -1;
+            GUI.color = new Color(currentColor.r, currentColor.g, currentColor.b, alpha);
             GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), blackText);
         }
     }
@@ -39,9 +40,11 @@ public class GameController : MonoBehaviour
     {
         if(level != 0)
         {
+            pickupCount = GameObject.FindGameObjectsWithTag("Pickup").GetLength(0);
+            enemyCount = GameObject.FindGameObjectsWithTag("Enemy").GetLength(0);
             GameObject spawn = GameObject.FindGameObjectWithTag(spawnTag);
             GameObject.Instantiate(playerPrefab, spawn.transform.position, Quaternion.identity);
-            StartFadeIn(null);
+            StartFadeIn(null, Color.black);
         }
     }
     
@@ -50,13 +53,15 @@ public class GameController : MonoBehaviour
         Application.LoadLevel(i);
     }
 
-    public void StartFadeIn(Action action)
+    public void StartFadeIn(Action action, Color fromColor)
     {
+        currentColor = fromColor;
         StartCoroutine(FadeIn(action));
     }
 
-    public void StartFadeOut(Action action)
+    public void StartFadeOut(Action action, Color toColor)
     {
+        currentColor = toColor;
         StartCoroutine(FadeOut(action));
     }
 
@@ -80,5 +85,10 @@ public class GameController : MonoBehaviour
         }
         if (action != null)
             action();
+    }
+
+    public void Pickup()
+    {
+        CanDefeatEnemies = pickupCount-- == 0;
     }
 }

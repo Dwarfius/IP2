@@ -5,9 +5,9 @@ public class PlayerScript : MonoBehaviour
     public float playerVelocity;
     public float cameraVelocity = 1;
     public float cameraTravelDist = 1;
-    public int pickupCount;
 	public string PickupTag = "Pickup";
     public string TeleportTag = "Teleport";
+    public string EnemyTag = "Enemy";
 	public GameObject player;
     public GameObject recievingSprite;
     public GameObject sendingSprite;
@@ -15,7 +15,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public bool cameraControl;
 	
     Animator animator;
-    GameObject coin;
+    GameObject pickup, enemy;
     bool messagePopup;
     Vector2 playerPosition;
     string labelText = "";
@@ -25,7 +25,6 @@ public class PlayerScript : MonoBehaviour
     {
 		animator = GetComponent<Animator>();
         cameraTrans = transform.GetChild(0);
-        
 	}
 
     void Update()
@@ -51,37 +50,28 @@ public class PlayerScript : MonoBehaviour
             cameraTrans.localPosition = new Vector3(pos.x, pos.y, -10);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && coin)
+        if (Input.GetKeyDown(KeyCode.Space) && pickup)
         {
-            Destroy(coin);
+            Destroy(pickup);
             messagePopup = false;
-            pickupCount++;
+            GameController.Get().Pickup();
+        }
+
+        if(GameController.Get().CanDefeatEnemies && enemy && Input.GetKeyDown(KeyCode.Space))
+        {
+            Destroy(enemy);
         }
 
         if (dy > 0)
-        {
             animator.SetInteger("AnimState", 1);
-            
-        }
         else if (dy < 0)
-        {
             animator.SetInteger("AnimState", 0);
-            
-        }
         else if (dx > 0)
-        {
             animator.SetInteger("AnimState", 2);
-            
-        }
         else if (dx < 0)
-        {
             animator.SetInteger("AnimState", 3);
-
-        }
         else if (dx == 0 && dy == 0)
-        {
             animator.SetInteger("AnimState", -1);
-        }
 
     }
     void OnTriggerEnter2D(Collider2D col)
@@ -94,7 +84,7 @@ public class PlayerScript : MonoBehaviour
                     "Note that everytime you pick one of these up the guage above the enemy will decrease\n" +
                     "Once this guage is below a certain level it will turn from a green colour to a red colour. You can only pass through enemies to complete\n" +
                     "the level if their guage is red.  To pass through an enemy simply go behind an enemy and press i\n";
-            coin = col.gameObject;
+            pickup = col.gameObject;
         }
     
         //Teleportation - this part of the script teleports the player from the selected position to the new position
@@ -102,18 +92,17 @@ public class PlayerScript : MonoBehaviour
         {
             player.transform.position=recievingSprite.transform.position;
         }
-}
-        
-		//if (col.gameObject.name=="Button")
-			//animator.SetInteger("AnimState", 1);
-	
+
+        if(col.tag == EnemyTag)
+        {
+            enemy = col.gameObject;
+        }
+    }
         
 	void OnTriggerExit2D(Collider2D col)
 	{
 		if (col.gameObject.tag == "Barrel")
-		{
 			player.SetActive(true);
-		}
 	}
 	void OnGUI()
 	{
