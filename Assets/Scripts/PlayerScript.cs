@@ -9,8 +9,6 @@ public class PlayerScript : MonoBehaviour
 	public string PickupTag = "Pickup";
     public string TeleportTag = "Teleport";
 	public GameObject player;
-    public GameObject recievingSprite;
-    public GameObject sendingSprite;
 
     [HideInInspector] public bool cameraControl;
 	
@@ -91,12 +89,6 @@ public class PlayerScript : MonoBehaviour
                     "Once this guage is below a certain level it will turn from a green colour to a red colour. You can only pass through enemies to complete\n" +
                     "the level if their guage is red.  To pass through an enemy simply go behind an enemy and press i\n";
             coin = col.gameObject;
-        }
-    
-        //Teleportaion
-        if (col.gameObject.tag == TeleportTag)
-        {
-            player.transform.position=recievingSprite.transform.position;
         }
 }
         

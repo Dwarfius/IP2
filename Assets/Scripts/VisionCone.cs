@@ -41,7 +41,8 @@ public class VisionCone : MonoBehaviour
                 time -= Time.deltaTime;
                 lightCone.color = Color.Lerp(normalColor, detectColor, (timeToDetect - time) / timeToDetect);
                 if(time < 0)
-                    Application.LoadLevel(Application.loadedLevel);
+                    GameController.Get().StartFadeOut(() => Application.LoadLevel(Application.loadedLevel));
+                    
                 return;
             }
         }

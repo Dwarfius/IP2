@@ -28,4 +28,10 @@ public class HidingScript : MonoBehaviour
 		if (col.gameObject.tag==PlayerTag)
             player = col.gameObject;
 	}
+
+    void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.gameObject.tag == PlayerTag)
+            player = null;
+    }
 }
