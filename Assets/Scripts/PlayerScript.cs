@@ -76,7 +76,11 @@ public class PlayerScript : MonoBehaviour
         else if (dx < 0)
         {
             animator.SetInteger("AnimState", 3);
-            
+
+        }
+        else if (dx == 0 && dy == 0)
+        {
+            animator.SetInteger("AnimState", -1);
         }
 
     }
@@ -93,7 +97,7 @@ public class PlayerScript : MonoBehaviour
             coin = col.gameObject;
         }
     
-        //Teleportaion
+        //Teleportation - this part of the script teleports the player from the selected position to the new position
         if (col.gameObject.tag == TeleportTag)
         {
             player.transform.position=recievingSprite.transform.position;

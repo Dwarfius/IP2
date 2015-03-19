@@ -4,6 +4,9 @@ using System.Collections;
 public class EnemyAnimScript : MonoBehaviour {
 
     public float angle;
+    public float xDir;
+    public float yDir;
+
     Animator animator;
 	// Use this for initialization
 	void Start () 
