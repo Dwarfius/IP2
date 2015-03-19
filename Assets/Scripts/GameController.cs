@@ -9,7 +9,9 @@ public class GameController : MonoBehaviour
     public float fadeSpeed;
 
     static GameController singleton;
-    public static GameController Get() { return singleton; }
+
+
+    public static GameController Get() { Debug.Log(singleton); return singleton; }
 
     Texture2D blackText;
     float alpha = 1;
@@ -21,6 +23,7 @@ public class GameController : MonoBehaviour
         blackText = new Texture2D(1, 1);
         blackText.SetPixel(1, 1, Color.black);
         blackText.Apply();
+        Debug.Log("test" + singleton);
     }
 
     void OnGUI()
