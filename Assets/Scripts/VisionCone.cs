@@ -7,11 +7,13 @@ public class VisionCone : MonoBehaviour
     public float angle;
     public float timeToDetect = 0.5f;
     public Color normalColor = Color.white;
+    public Color weakColor = Color.yellow;
     public Color detectColor = Color.red;
 
     Light lightCone;
     float time;
     Transform player = null;
+    Color currentNormalColor;
 
 	void Start () 
     {
@@ -32,6 +34,9 @@ public class VisionCone : MonoBehaviour
 
     void Update()
     {
+        float modTimeToDetect = timeToDetect * GameController.Get().GetWeakeningFactor();
+        currentNormalColor = Color.Lerp(normalColor, weakColor, GameController.Get().GetPickupProgress());
+
         if (player)
         {
             Vector2 dir = (player.transform.position - transform.position).normalized;
@@ -39,18 +44,20 @@ public class VisionCone : MonoBehaviour
             if (hit && hit.transform.tag == "Player")
             {
                 time -= Time.deltaTime;
-                lightCone.color = Color.Lerp(normalColor, detectColor, (timeToDetect - time) / timeToDetect);
+                lightCone.color = Color.Lerp(currentNormalColor, detectColor, (modTimeToDetect - time) / modTimeToDetect);
                 if(time < 0)
                     GameController.Get().StartFadeOut(() => Application.LoadLevel(Application.loadedLevel), Color.red);
                 return;
             }
         }
-        
-        if(time < timeToDetect)
+
+        if (time < modTimeToDetect)
         {
             time += Time.deltaTime;
-            lightCone.color = Color.Lerp(normalColor, detectColor, (timeToDetect - time) / timeToDetect);
+            lightCone.color = Color.Lerp(currentNormalColor, detectColor, (modTimeToDetect - time) / modTimeToDetect);
         }
+        else
+            lightCone.color = currentNormalColor;
     }
 
     void OnTriggerStay2D(Collider2D col)

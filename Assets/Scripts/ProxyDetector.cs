@@ -29,10 +29,10 @@ public class ProxyDetector : MonoBehaviour
     void Update()
     {
         Vector2 myPos = new Vector2(transform.position.x, transform.position.y);
+        targetsInRange.RemoveAll(x => x == null);
         if (targetsInRange.Count > 0)
         {
             //sorting by distance from this
-            targetsInRange.RemoveAll(x => x == null);
             targetsInRange.Sort((x1, x2) => { return Vector2.Distance(x1.transform.position, myPos).CompareTo(Vector2.Distance(x2.transform.position, myPos)); });
 
             //filling the progress bar relative to distance to the object

@@ -15,7 +15,8 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public bool cameraControl;
 	
     Animator animator;
-    GameObject pickup, enemy;
+    GameObject pickup;
+    Enemy enemy;
     bool messagePopup;
     Vector2 playerPosition;
     string labelText = "";
@@ -57,9 +58,10 @@ public class PlayerScript : MonoBehaviour
             GameController.Get().Pickup();
         }
 
-        if(GameController.Get().CanDefeatEnemies && enemy && Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) && enemy && enemy.marked)
         {
             Destroy(enemy);
+            GameController.Get().StartFadeOut(() => Application.LoadLevel(Application.loadedLevel + 1), Color.white);
         }
 
         if (dy > 0)
@@ -76,32 +78,24 @@ public class PlayerScript : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == PickupTag)
-        {
-            messagePopup = true;
-            labelText = "These are pick up objects. They are used to make others forget\n"
-                + "about you which is something you must do in order to obtain your goal.\n" +
-                    "Note that everytime you pick one of these up the guage above the enemy will decrease\n" +
-                    "Once this guage is below a certain level it will turn from a green colour to a red colour. You can only pass through enemies to complete\n" +
-                    "the level if their guage is red.  To pass through an enemy simply go behind an enemy and press i\n";
+        if (col.tag == PickupTag)
             pickup = col.gameObject;
-        }
     
         //Teleportation - this part of the script teleports the player from the selected position to the new position
-        if (col.gameObject.tag == TeleportTag)
-        {
+        if (col.tag == TeleportTag)
             player.transform.position=recievingSprite.transform.position;
-        }
 
         if(col.tag == EnemyTag)
-        {
-            enemy = col.gameObject;
-        }
+            enemy = col.GetComponent<Enemy>();
     }
         
 	void OnTriggerExit2D(Collider2D col)
 	{
-		if (col.gameObject.tag == "Barrel")
+        if (col.tag == PickupTag)
+            pickup = null;
+        else if (col.tag == EnemyTag)
+            enemy = null;
+		else if (col.tag == "Barrel")
 			player.SetActive(true);
 	}
 	void OnGUI()
