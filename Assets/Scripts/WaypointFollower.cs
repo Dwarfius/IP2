@@ -21,11 +21,15 @@ public class WaypointFollower : MonoBehaviour
     public bool mirrored;
     public List<Waypoint> waypoints = new List<Waypoint>();
 
+    [HideInInspector] public Vector2 dir;
+
     int wpInd, delta = 1;
     bool waiting;
+    Transform camTrans;
 
 	void Start () 
     {
+        camTrans = transform.GetChild(0);
         if (waypoints.Count > 1)
         {
             transform.position = waypoints[0].target.position;
@@ -39,8 +43,10 @@ public class WaypointFollower : MonoBehaviour
     {
         if(waypoints.Count > 1 && !waiting)
         {
+            Vector2 myPos = transform.position;
             Waypoint w = waypoints[wpInd];
-            if (Vector3.Distance(transform.position, w.target.position) < 0.01f) //if we reached the waypoint
+            Vector2 wPos = w.target.position;
+            if (Vector2.Distance(myPos, wPos) < 0.01f) //if we reached the waypoint
             {
                 if (w.lookAtTarget)
                     LookAt2D(w.lookAtTarget);
@@ -48,7 +54,7 @@ public class WaypointFollower : MonoBehaviour
             }
             else //if not, then continue moving towards it
             {
-                Vector3 dir = (w.target.position - transform.position).normalized;
+                dir = (wPos - myPos).normalized;
                 transform.Translate(dir * speed * Time.deltaTime, Space.World);
             }
         }
@@ -60,7 +66,7 @@ public class WaypointFollower : MonoBehaviour
         yield return new WaitForSeconds(time);
         waiting = false;
         wpInd += delta;
-        if (wpInd == waypoints.Count - 1 || wpInd == 0) //if we reached the last waypoint
+        if (wpInd == waypoints.Count || wpInd == 0) //if we reached the last waypoint
         {
             if (mirrored)
                 delta *= -1;
@@ -116,7 +122,8 @@ public class WaypointFollower : MonoBehaviour
     void LookAt2D(Transform target)
     {
         Vector3 n = (target.position - transform.position).normalized;
+        dir = n; //for forcing the right anim
         float angle = Mathf.Atan2(n.y, n.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        camTrans.rotation = Quaternion.Euler(0, 0, angle);
     }
 }

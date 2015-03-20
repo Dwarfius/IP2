@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     public static GameController Get() { return singleton; }
 
     Texture2D blackText;
-    float alpha = 1;
+    float alpha = 0;
     Color currentColor;
     int initPickupCount, pickupCount;
     GameObject[] enemies;
@@ -40,7 +40,7 @@ public class GameController : MonoBehaviour
 
     void OnLevelWasLoaded(int level)
     {
-        if(level != 0)
+        if(level != 0 && spawnTag != "")
         {
             initPickupCount = pickupCount = GameObject.FindGameObjectsWithTag("Pickup").GetLength(0);
             enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -59,6 +59,7 @@ public class GameController : MonoBehaviour
     {
         if (fading)
             return;
+        alpha = 1;
         currentColor = fromColor;
         StartCoroutine(FadeIn(action));
     }
@@ -67,6 +68,7 @@ public class GameController : MonoBehaviour
     {
         if (fading)
             return;
+        alpha = 0;
         currentColor = toColor;
         StartCoroutine(FadeOut(action));
     }
