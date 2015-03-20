@@ -66,10 +66,13 @@ public class WaypointFollower : MonoBehaviour
         yield return new WaitForSeconds(time);
         waiting = false;
         wpInd += delta;
-        if (wpInd == waypoints.Count || wpInd == 0) //if we reached the last waypoint
+        if (wpInd == waypoints.Count || wpInd == -1) //if we reached the last waypoint
         {
             if (mirrored)
+            {
                 delta *= -1;
+                wpInd += delta * 2;
+            }
             else
                 wpInd = 0;
         }
