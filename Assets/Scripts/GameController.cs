@@ -40,10 +40,12 @@ public class GameController : MonoBehaviour
 
     void OnLevelWasLoaded(int level)
     {
-        if(level != 0 && spawnTag != "")
+        if(level != 0)
         {
             initPickupCount = pickupCount = GameObject.FindGameObjectsWithTag("Pickup").GetLength(0);
             enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            if (!playerPrefab || spawnTag == "")
+                return;
             GameObject spawn = GameObject.FindGameObjectWithTag(spawnTag);
             GameObject.Instantiate(playerPrefab, spawn.transform.position, Quaternion.identity);
             StartFadeIn(null, Color.black);

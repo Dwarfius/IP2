@@ -60,7 +60,7 @@ public class PlayerScript : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space) && enemy && enemy.marked)
         {
-            Destroy(enemy);
+            Destroy(enemy.gameObject);
             GameController.Get().StartFadeOut(() => Application.LoadLevel(Application.loadedLevel + 1), Color.white);
         }
 
