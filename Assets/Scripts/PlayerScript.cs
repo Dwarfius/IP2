@@ -11,6 +11,23 @@ public class PlayerScript : MonoBehaviour
 	public GameObject player;
     public GameObject recievingSprite;
     public GameObject sendingSprite;
+    //*
+    public GameObject Key1;
+    public GameObject Key2;
+    public GameObject Key3;
+    public string Key1Tag = "Key1";
+    public string Key2Tag = "Key2";
+    public string Key3Tag = "Key3";
+    public string LockedDoor1Tag = "LockedDoor1";
+    public string LockedDoor2Tag = "LockedDoor2";
+    public string LockedDoor3Tag = "LockedDoor3";
+    public bool key1PickedUp;
+    public bool key2PickedUp;
+    public bool key3PickedUp;
+    public bool collisionWithLockedDoor1;
+    public bool collisionWithLockedDoor2;
+    public bool collisionWithLockedDoor3;
+    //*
 
     [HideInInspector] public bool cameraControl;
 	
@@ -75,6 +92,13 @@ public class PlayerScript : MonoBehaviour
         else if (dx == 0 && dy == 0)
             animator.SetInteger("AnimState", -1);
 
+        //*
+        if (key1PickedUp == true && collisionWithLockedDoor1 )
+        {
+
+        }
+        //*
+
     }
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -87,6 +111,33 @@ public class PlayerScript : MonoBehaviour
 
         if(col.tag == EnemyTag)
             enemy = col.GetComponent<Enemy>();
+
+        //*
+
+        if (col.tag == Key1Tag)
+        {
+            Debug.Log("Key 1 Picked Up");
+            Destroy(Key1.gameObject);
+            key1PickedUp = true;
+            //this is where the code goes for the key to be displayed
+        }
+
+        if (col.tag == LockedDoor1Tag)
+        {
+            collisionWithLockedDoor1 = true;
+        }
+
+        if (col.tag == LockedDoor2Tag)
+        {
+            collisionWithLockedDoor2 = true;
+        }
+
+        if (col.tag == LockedDoor3Tag)
+        {
+            collisionWithLockedDoor3 = true;
+        }
+
+        //*
     }
         
 	void OnTriggerExit2D(Collider2D col)
