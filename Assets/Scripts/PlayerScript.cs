@@ -132,6 +132,11 @@ using System.Collections;
                 enemy = null;
             else if (col.tag == "Barrel")
                 player.SetActive(true);
+
+          if (col.tag == Door1Tag)
+          {
+              collisionWithDoor1 = null;
+          }
         }
         void OnGUI()
         {
