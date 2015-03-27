@@ -8,6 +8,12 @@ public class HidingScript : MonoBehaviour
     GameObject player;
    // public AudioClip hideSound;
     public AudioSource hideSound;
+    private Animator animator;
+
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
 
 	void Update () 
     {
@@ -22,7 +28,10 @@ public class HidingScript : MonoBehaviour
                 player.transform.GetChild(0).localPosition = new Vector3(0, 0, -10);
                 player = null;
             }
+            animator.SetInteger("AnimState", 1);
             audio.Play();
+
+            
 		}
 	}
 
@@ -30,6 +39,7 @@ public class HidingScript : MonoBehaviour
 	{
 		if (col.gameObject.tag==PlayerTag)
             player = col.gameObject;
+       
             
 	}
 
@@ -37,5 +47,6 @@ public class HidingScript : MonoBehaviour
     {
         if (col.gameObject.tag == PlayerTag)
             player = null;
+        animator.SetInteger("AnimState", 0);
     }
 }
