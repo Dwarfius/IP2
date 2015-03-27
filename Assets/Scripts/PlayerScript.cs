@@ -21,6 +21,13 @@ using System.Collections;
         public GameObject Key1;
         GameObject collisionWithDoor1;
         public UnlockDoorScript unlockDoorScript;
+        public AudioClip keyPickup;
+        public AudioClip pickUp;
+        public AudioClip doorOpenSound;
+
+        
+        //public AudioClip footSteps;
+        
 
         
 
@@ -91,7 +98,14 @@ using System.Collections;
             if (Input.GetKeyDown(KeyCode.O) && key1Collected && collisionWithDoor1)
             {
                 unlockDoorScript.UnlockTheDoor();
+
             }
+            /*
+            if (dy != 0 || dx !=0)
+            {
+                audio.Play();
+            }
+             * */
             
 
         }
@@ -112,6 +126,7 @@ using System.Collections;
                 Debug.Log("Object picked up");
                 Destroy(Key1.gameObject);
                 key1Collected = true;
+                audio.PlayOneShot(keyPickup);
             }
 
             if (col.tag == Door1Tag)

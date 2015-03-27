@@ -6,6 +6,8 @@ public class HidingScript : MonoBehaviour
 	public string PlayerTag = "Player";
     
     GameObject player;
+   // public AudioClip hideSound;
+    public AudioSource hideSound;
 
 	void Update () 
     {
@@ -20,6 +22,7 @@ public class HidingScript : MonoBehaviour
                 player.transform.GetChild(0).localPosition = new Vector3(0, 0, -10);
                 player = null;
             }
+            audio.Play();
 		}
 	}
 
@@ -27,6 +30,7 @@ public class HidingScript : MonoBehaviour
 	{
 		if (col.gameObject.tag==PlayerTag)
             player = col.gameObject;
+            
 	}
 
     void OnTriggerExit2D(Collider2D col)
