@@ -24,10 +24,9 @@ using System.Collections;
         public AudioClip keyPickup;
         public AudioClip pickUp;
         public AudioClip doorOpenSound;
-
-        
-        //public AudioClip footSteps;
-        
+        public AudioClip enemyDefeat;
+        public AudioClip heavenGates;
+        public AudioClip footSteps;
 
         
 
@@ -73,15 +72,20 @@ using System.Collections;
 
             if (Input.GetKeyDown(KeyCode.Space) && pickup)
             {
+
                 Destroy(pickup);
+                audio.PlayOneShot(pickUp);
                 messagePopup = false;
                 GameController.Get().Pickup();
+                
             }
 
             if (Input.GetKeyDown(KeyCode.Space) && enemy && enemy.marked)
             {
                 Destroy(enemy.gameObject);
+                audio.PlayOneShot(enemyDefeat);
                 GameController.Get().StartFadeOut(() => Application.LoadLevel(Application.loadedLevel + 1), Color.white);
+                audio.PlayOneShot(heavenGates);
             }
 
             if (dy > 0)
@@ -100,12 +104,13 @@ using System.Collections;
                 unlockDoorScript.UnlockTheDoor();
 
             }
-            /*
+            
             if (dy != 0 || dx !=0)
             {
+                audio.clip = footSteps;
                 audio.Play();
             }
-             * */
+             
             
 
         }
@@ -113,6 +118,7 @@ using System.Collections;
         {
             if (col.tag == PickupTag)
                 pickup = col.gameObject;
+            
 
             //Teleportation - this part of the script teleports the player from the selected position to the new position
             if (col.tag == TeleportTag)
