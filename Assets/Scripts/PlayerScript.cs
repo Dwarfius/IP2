@@ -17,7 +17,7 @@ using System.Collections;
 
         public string Key1Tag = "Key1";
         public string Door1Tag = "LockedDoor1";
-        public bool key1Collected;
+        public bool key1Collected = false;
         public GameObject Key1;
         GameObject collisionWithDoor1;
         public UnlockDoorScript unlockDoorScript;
@@ -29,6 +29,7 @@ using System.Collections;
         public AudioClip footSteps;
         bool keyPopUpMessage;
         float keyMessagePopTime = 5.0F;
+        bool doorPopUpMessage;
 
         
 
@@ -41,6 +42,7 @@ using System.Collections;
         bool keyPopup;
         Vector2 playerPosition;
         string keyText = "";
+        string doorText = "";
         Transform cameraTrans;
 
         void Start()
@@ -112,6 +114,8 @@ using System.Collections;
                 audio.clip = footSteps;
                 audio.Play();
             }
+
+           
              
             
 
@@ -143,7 +147,10 @@ using System.Collections;
             if (col.tag == Door1Tag)
             {
                 collisionWithDoor1 = col.gameObject;
+
             }
+
+          
 
             
 
@@ -179,6 +186,11 @@ using System.Collections;
             if (keyPopUpMessage)
 
                 GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), keyText);
+
+
+            if (doorPopUpMessage)
+
+                GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), doorText);
         }
 
     }
