@@ -27,6 +27,8 @@ using System.Collections;
         public AudioClip enemyDefeat;
         public AudioClip heavenGates;
         public AudioClip footSteps;
+        bool keyPopUpMessage;
+        float keyMessagePopTime = 5.0F;
 
         
 
@@ -36,9 +38,9 @@ using System.Collections;
         Animator animator;
         GameObject pickup;
         Enemy enemy;
-        bool messagePopup;
+        bool keyPopup;
         Vector2 playerPosition;
-        string labelText = "";
+        string keyText = "";
         Transform cameraTrans;
 
         void Start()
@@ -75,7 +77,7 @@ using System.Collections;
 
                 Destroy(pickup);
                 audio.PlayOneShot(pickUp);
-                messagePopup = false;
+                keyPopup = false;
                 GameController.Get().Pickup();
                 
             }
@@ -132,7 +134,10 @@ using System.Collections;
                 Debug.Log("Object picked up");
                 Destroy(Key1.gameObject);
                 key1Collected = true;
+                keyText = "This key opens the yellow door!";
                 audio.PlayOneShot(keyPickup);
+                keyPopUpMessage = true;
+                StartCoroutine(KeyMessageTimer());
             }
 
             if (col.tag == Door1Tag)
@@ -140,10 +145,16 @@ using System.Collections;
                 collisionWithDoor1 = col.gameObject;
             }
 
+            
 
 
         }
 
+        IEnumerator KeyMessageTimer()
+        {
+            yield return new WaitForSeconds(keyMessagePopTime);
+            keyPopUpMessage = false;
+        }
 
         void OnTriggerExit2D(Collider2D col)
         {
@@ -161,8 +172,13 @@ using System.Collections;
         }
         void OnGUI()
         {
-            if (messagePopup)
-                GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), labelText);
+            if (keyPopup)
+                
+                GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), keyText);
+
+            if (keyPopUpMessage)
+
+                GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), keyText);
         }
 
     }
