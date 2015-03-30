@@ -29,7 +29,7 @@ using System.Collections;
         public AudioClip footSteps;
         bool keyPopUpMessage;
         float keyMessagePopTime = 5.0F;
-        bool doorPopUpMessage;
+        /*bool doorPopUpMessage;*/
 
         
 
@@ -188,9 +188,9 @@ using System.Collections;
                 GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), keyText);
 
 
-            if (doorPopUpMessage)
+            /*if (doorPopUpMessage)
 
-                GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), doorText);
+                GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), doorText);*/
         }
 
     }
