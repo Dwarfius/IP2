@@ -18,9 +18,9 @@ using System.Collections;
         public string Key1Tag = "Key1";
         public string Door1Tag = "LockedDoor1";
         public bool key1Collected = false;
-        public GameObject Key1;
+   
         GameObject collisionWithDoor1;
-        public UnlockDoorScript unlockDoorScript;
+        UnlockDoorScript unlockDoorScript;
         public AudioClip keyPickup;
         public AudioClip pickUp;
         public AudioClip doorOpenSound;
@@ -30,6 +30,7 @@ using System.Collections;
         bool keyPopUpMessage;
         float keyMessagePopTime = 5.0F;
         /*bool doorPopUpMessage;*/
+       
 
         
 
@@ -136,7 +137,7 @@ using System.Collections;
             if (col.tag == Key1Tag)
             {
                 Debug.Log("Object picked up");
-                Destroy(Key1.gameObject);
+                Destroy(col.gameObject);
                 key1Collected = true;
                 keyText = "This key opens the yellow door!";
                 audio.PlayOneShot(keyPickup);
@@ -147,8 +148,10 @@ using System.Collections;
             if (col.tag == Door1Tag)
             {
                 collisionWithDoor1 = col.gameObject;
-
+                unlockDoorScript = collisionWithDoor1.GetComponent<UnlockDoorScript>();
+                doorText = "You cannot get through this door without the key!";
             }
+           
 
           
 
@@ -184,14 +187,17 @@ using System.Collections;
                 GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), keyText);
 
             if (keyPopUpMessage)
-
                 GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), keyText);
+            if (collisionWithDoor1 && key1Collected)
+                GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), keyText);
+                
+            else if (collisionWithDoor1 && !key1Collected)
+                GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), doorText);
 
 
             /*if (doorPopUpMessage)
 
                 GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), doorText);*/
         }
-
     }
 
