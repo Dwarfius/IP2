@@ -30,6 +30,7 @@ using System.Collections;
         bool keyPopUpMessage;
         float keyMessagePopTime = 5.0F;
         /*bool doorPopUpMessage;*/
+       
 
         
 
@@ -148,6 +149,7 @@ using System.Collections;
             {
                 collisionWithDoor1 = col.gameObject;
                 unlockDoorScript = collisionWithDoor1.GetComponent<UnlockDoorScript>();
+                doorText = "You cannot get through this door without the key!";
             }
            
 
@@ -185,8 +187,12 @@ using System.Collections;
                 GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), keyText);
 
             if (keyPopUpMessage)
-
                 GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), keyText);
+            if (collisionWithDoor1 && key1Collected)
+                GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), keyText);
+                
+            else if (collisionWithDoor1 && !key1Collected)
+                GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), doorText);
 
 
             /*if (doorPopUpMessage)
