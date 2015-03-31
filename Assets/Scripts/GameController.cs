@@ -22,7 +22,8 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         singleton = this;
-        OnLevelWasLoaded(1); //workaround since we still don't have main menu
+	if(Application.loadedLevel == 0)
+		OnLevelWasLoaded(0);
         blackText = new Texture2D(1, 1);
         blackText.SetPixel(1, 1, Color.white);
         blackText.Apply();
@@ -44,17 +45,15 @@ public class GameController : MonoBehaviour
         {
             initPickupCount = pickupCount = GameObject.FindGameObjectsWithTag("Pickup").GetLength(0);
             enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            if (!playerPrefab || spawnTag == "")
-                return;
-            GameObject spawn = GameObject.FindGameObjectWithTag(spawnTag);
-            GameObject.Instantiate(playerPrefab, spawn.transform.position, Quaternion.identity);
-            StartFadeIn(null, Color.black);
         }
+	GameObject spawn = GameObject.FindGameObjectWithTag(spawnTag);
+	GameObject.Instantiate(playerPrefab, spawn.transform.position, Quaternion.identity);
+        StartFadeIn(null, Color.black);
     }
     
-    public void LoadLevel(int i)
+    public void LoadLevel(int level)
     {
-        Application.LoadLevel(i);
+        StartFadeOut(() => Application.LoadLevel(level), Color.white);
     }
 
     public void StartFadeIn(Action action, Color fromColor)
