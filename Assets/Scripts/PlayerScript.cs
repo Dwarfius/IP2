@@ -104,7 +104,7 @@ using System.Collections;
             else if (dx == 0 && dy == 0)
                 animator.SetInteger("AnimState", -1);
             
-            if (Input.GetKeyDown(KeyCode.O) && key1Collected && collisionWithDoor1)
+            if (key1Collected && collisionWithDoor1)
             {
                 unlockDoorScript.UnlockTheDoor();
 
