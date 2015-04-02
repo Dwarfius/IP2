@@ -22,8 +22,8 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         singleton = this;
-	if(Application.loadedLevel == 0)
-		OnLevelWasLoaded(0);
+	    if(Application.loadedLevel == 0)
+		    OnLevelWasLoaded(0);
         blackText = new Texture2D(1, 1);
         blackText.SetPixel(1, 1, Color.white);
         blackText.Apply();
@@ -46,8 +46,8 @@ public class GameController : MonoBehaviour
             initPickupCount = pickupCount = GameObject.FindGameObjectsWithTag("Pickup").GetLength(0);
             enemies = GameObject.FindGameObjectsWithTag("Enemy");
         }
-	GameObject spawn = GameObject.FindGameObjectWithTag(spawnTag);
-	GameObject.Instantiate(playerPrefab, spawn.transform.position, Quaternion.identity);
+	    GameObject spawn = GameObject.FindGameObjectWithTag(spawnTag);
+	    GameObject.Instantiate(playerPrefab, spawn.transform.position, Quaternion.identity);
         StartFadeIn(null, Color.black);
     }
     
