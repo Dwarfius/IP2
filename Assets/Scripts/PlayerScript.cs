@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 public class PlayerScript : MonoBehaviour
 {
     public float playerVelocity;
@@ -9,20 +8,16 @@ public class PlayerScript : MonoBehaviour
     public float cameraTravelDist = 1;
     public string PickupTag = "Pickup";
     public string TeleportTag = "Teleport";
-    public string EnemyTag = "Enemy";
+    public string EnemyTag = "Enemy"; 
     public GameObject player;
     public GameObject recievingSprite;
     public GameObject sendingSprite;
 
     public string Key1Tag = "Key1";
     public string Door1Tag = "LockedDoor1";
-    public bool key1Collected = false;
-   
-    GameObject collisionWithDoor1;
-    UnlockDoorScript unlockDoorScript;
+    
     public AudioClip keyPickup;
     public AudioClip pickUp;
-    public AudioClip doorOpenSound;
     public AudioClip enemyDefeat;
     public AudioClip heavenGates;
     public AudioClip footSteps;
@@ -35,10 +30,8 @@ public class PlayerScript : MonoBehaviour
     Animator animator;
     GameObject pickup;
     Enemy enemy;
-    bool keyPopup;
-    Vector2 playerPosition;
+    bool keyPopup, key1Collected;
     string keyText = "";
-    string doorText = "";
     Transform cameraTrans;
 
     void Start()
@@ -54,7 +47,7 @@ public class PlayerScript : MonoBehaviour
 
         if (!cameraControl)
         {
-            playerPosition = transform.position;
+            Vector2 playerPosition = transform.position;
             playerPosition.x += dx * playerVelocity * Time.deltaTime;
             playerPosition.y += dy * playerVelocity * Time.deltaTime;
             rigidbody2D.MovePosition(playerPosition);
@@ -97,11 +90,6 @@ public class PlayerScript : MonoBehaviour
         else if (dx == 0 && dy == 0)
             animator.SetInteger("AnimState", -1);
             
-        if (key1Collected && collisionWithDoor1)
-        {
-            unlockDoorScript.UnlockTheDoor();
-        }
-            
         if (dy != 0 || dx !=0)
         {
             audio.clip = footSteps;
@@ -127,7 +115,6 @@ public class PlayerScript : MonoBehaviour
 
         if (col.tag == Key1Tag)
         {
-            Debug.Log("Object picked up");
             Destroy(col.gameObject);
             key1Collected = true;
             keyText = "This key opens the yellow door!";
@@ -138,9 +125,18 @@ public class PlayerScript : MonoBehaviour
 
         if (col.tag == Door1Tag)
         {
-            collisionWithDoor1 = col.gameObject;
-            unlockDoorScript = collisionWithDoor1.GetComponent<UnlockDoorScript>();
-            doorText = "You cannot get through this door without the key!";
+            if(key1Collected)
+            {
+                UnlockDoorScript unlockDoorScript = col.GetComponent<UnlockDoorScript>();
+                unlockDoorScript.UnlockTheDoor();
+            }
+            else
+            {
+                keyText = "You cannot get through this door without the key!";
+                keyPopUpMessage = true;
+                StartCoroutine(KeyMessageTimer());
+            }
+                
         }
     }
 
@@ -158,11 +154,6 @@ public class PlayerScript : MonoBehaviour
             enemy = null;
         else if (col.tag == "Barrel")
             player.SetActive(true);
-
-        if (col.tag == Door1Tag)
-        {
-            collisionWithDoor1 = null;
-        }
     }
 
     void OnGUI()
@@ -172,10 +163,6 @@ public class PlayerScript : MonoBehaviour
 
         if (keyPopUpMessage)
             GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), keyText);
-        if (collisionWithDoor1 && key1Collected)
-            GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), keyText);
-        else if (collisionWithDoor1 && !key1Collected)
-            GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 200), doorText);
     }
 }
 

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class ProxyDetector : MonoBehaviour 
 {
     public float startDetectRadius, fullDetectRadius;
-    public GameObject progressBarPrefab;
     public string pickupTag;
 
     CircleCollider2D coll;
@@ -22,12 +21,13 @@ public class ProxyDetector : MonoBehaviour
         coll = gameObject.AddComponent<CircleCollider2D>();
         coll.radius = startDetectRadius;
         coll.isTrigger = true;
-
-        slider = (Instantiate(progressBarPrefab) as GameObject).transform.GetChild(0).GetComponent<Slider>();
 	}
 
     void Update()
     {
+        if (!slider)
+            return;
+
         Vector2 myPos = new Vector2(transform.position.x, transform.position.y);
         targetsInRange.RemoveAll(x => x == null);
         if (targetsInRange.Count > 0)
@@ -56,5 +56,10 @@ public class ProxyDetector : MonoBehaviour
     {
         if (other.tag == pickupTag)
             targetsInRange.Remove(other.gameObject);
+    }
+
+    public void SetSlider(Slider s)
+    {
+        slider = s;
     }
 }

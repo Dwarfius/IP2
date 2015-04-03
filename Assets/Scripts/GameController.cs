@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour 
 {
     public GameObject playerPrefab;
+    public GameObject uiPrefab;
     public string spawnTag;
     public float fadeSpeed;
     public float weakFactor;
@@ -18,6 +20,7 @@ public class GameController : MonoBehaviour
     int initPickupCount, pickupCount;
     GameObject[] enemies;
     bool fading;
+    Text textLabel;
 	
     void Awake()
     {
@@ -41,13 +44,19 @@ public class GameController : MonoBehaviour
 
     void OnLevelWasLoaded(int level)
     {
-        if(level != 0)
+	    GameObject spawn = GameObject.FindGameObjectWithTag(spawnTag);
+	    GameObject player = (GameObject)Instantiate(playerPrefab, spawn.transform.position, Quaternion.identity);
+        
+        if (level != 0)
         {
             initPickupCount = pickupCount = GameObject.FindGameObjectsWithTag("Pickup").GetLength(0);
             enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            GameObject ui = (GameObject)Instantiate(uiPrefab);
+            player.transform.GetChild(0).GetComponent<ProxyDetector>().SetSlider(ui.transform.GetChild(0).GetComponent<Slider>());
+            textLabel = ui.transform.GetChild(1).GetComponent<Text>();
+            textLabel.text = "Pickups left: " + pickupCount;
         }
-	    GameObject spawn = GameObject.FindGameObjectWithTag(spawnTag);
-	    GameObject.Instantiate(playerPrefab, spawn.transform.position, Quaternion.identity);
+
         StartFadeIn(null, Color.black);
     }
     
@@ -102,12 +111,13 @@ public class GameController : MonoBehaviour
 
     public void Pickup()
     {
-        if (--pickupCount == 0)
+        pickupCount--;
+        textLabel.text = "Pickups left: " + pickupCount;
+        if (pickupCount == 0)
         {
             int index = UnityEngine.Random.Range(0, enemies.Length);
             enemies[index].GetComponent<Enemy>().Mark();
         }
-            
     }
 
     public float GetWeakeningFactor()
