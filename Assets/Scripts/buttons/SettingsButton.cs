@@ -20,7 +20,7 @@ public class SettingsButton : MonoBehaviour {
 	}
 
 	private void OnGUI () {
-		if (GUI.Button (new Rect(Screen.width /8 , Screen.height *7 /11 , texture.width, texture.height), currentTexture, GUIStyle.none)) { 
+		if (GUI.Button (new Rect(Screen.width /8 , Screen.height *6 /11 , texture.width, texture.height), currentTexture, GUIStyle.none)) { 
 
 			StartCoroutine(PlayButtonClickCredits());
 			
