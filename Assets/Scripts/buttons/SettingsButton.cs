@@ -28,7 +28,7 @@ public class SettingsButton : MonoBehaviour {
 		}
 		}
 	public void Update() {
-		Rect boundingBox=new Rect(Screen.width /8 , Screen.height *7 /11 , currentTexture.width, currentTexture.height);
+		Rect boundingBox=new Rect(Screen.width /8 , Screen.height *6 /11 , currentTexture.width, currentTexture.height);
 		Vector3 actualMousePosition = Input.mousePosition;
 		actualMousePosition.y = Screen.height-Input.mousePosition.y;
 		if (boundingBox.Contains(actualMousePosition)){
