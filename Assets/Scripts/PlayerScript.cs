@@ -54,6 +54,7 @@ public class PlayerScript : MonoBehaviour
             if (dx != 1 && dy != 1)
                 rigidbody2D.velocity = new Vector2(0, 0);
         }
+
         else
         {
             Vector2 offset = new Vector2(cameraVelocity * dx * Time.deltaTime, cameraVelocity * dy * Time.deltaTime);
@@ -90,11 +91,19 @@ public class PlayerScript : MonoBehaviour
         else if (dx == 0 && dy == 0)
             animator.SetInteger("AnimState", -1);
             
-        if (dy != 0 || dx !=0)
+        if (dx !=0 && !audio.isPlaying)
         {
             audio.clip = footSteps;
             audio.Play();
+            
         }
+        if (dy != 0&& !audio.isPlaying)
+        {
+            audio.clip = footSteps;
+            audio.Play();
+            
+        }
+     
     }
 
     void OnTriggerEnter2D(Collider2D col)
