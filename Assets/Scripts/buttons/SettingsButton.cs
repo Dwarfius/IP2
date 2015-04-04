@@ -16,7 +16,7 @@ public class SettingsButton : MonoBehaviour {
 	{
 		audio.Play();
 		yield return new WaitForSeconds(audio.clip.length);
-		Application.LoadLevel("Credits");
+		Application.LoadLevel("credits");
 	}
 
 	private void OnGUI () {
