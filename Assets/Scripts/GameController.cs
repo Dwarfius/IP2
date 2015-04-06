@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
     GameObject[] enemies;
     bool fading;
     Text textLabel;
+    GameObject pauseGameobject, player;
 	
     void Awake()
     {
@@ -30,6 +31,17 @@ public class GameController : MonoBehaviour
         blackText = new Texture2D(1, 1);
         blackText.SetPixel(1, 1, Color.white);
         blackText.Apply();
+
+        pauseGameobject = GameObject.Find("Menu");
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            pauseGameobject.SetActive(!pauseGameobject.activeSelf);
+            player.GetComponent<PlayerScript>().enabled = !player.GetComponent<PlayerScript>().enabled;
+        }
     }
 
     void OnGUI()
@@ -45,7 +57,7 @@ public class GameController : MonoBehaviour
     void OnLevelWasLoaded(int level)
     {
 	    GameObject spawn = GameObject.FindGameObjectWithTag(spawnTag);
-	    GameObject player = (GameObject)Instantiate(playerPrefab, spawn.transform.position, Quaternion.identity);
+	    player = (GameObject)Instantiate(playerPrefab, spawn.transform.position, Quaternion.identity);
         
         if (level != 0)
         {

@@ -1,7 +1,11 @@
 fileFormatVersion: 2
 guid: 3cf7c412d94e8d049b88ec86c8bea767
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Selection of boxes_0
+    21300002: Selection of boxes_1
+    21300004: Selection of boxes_2
+    21300006: Selection of boxes_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -25,13 +29,13 @@ TextureImporter:
   maxTextureSize: 1024
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
-    wrapMode: -1
+    wrapMode: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -42,6 +46,46 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: Selection of boxes_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 16
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Selection of boxes_1
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 1
+        width: 13
+        height: 30
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Selection of boxes_2
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 9
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Selection of boxes_3
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 1
+        width: 7
+        height: 14
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
