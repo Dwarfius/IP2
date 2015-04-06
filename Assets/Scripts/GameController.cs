@@ -142,4 +142,9 @@ public class GameController : MonoBehaviour
     {
         return 1 - (float)pickupCount / initPickupCount;
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }
