@@ -33,12 +33,13 @@ public class GameController : MonoBehaviour
         blackText.Apply();
 
         pauseGameobject = GameObject.Find("Menu");
-        pauseGameobject.SetActive(false);
+        if(pauseGameobject)
+            pauseGameobject.SetActive(false);
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape) && pauseGameobject)
         {
             pauseGameobject.SetActive(!pauseGameobject.activeSelf);
             player.GetComponent<PlayerScript>().enabled = !player.GetComponent<PlayerScript>().enabled;
