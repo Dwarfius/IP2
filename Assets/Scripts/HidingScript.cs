@@ -6,15 +6,23 @@ public class HidingScript : MonoBehaviour
 	public string PlayerTag = "Player";
     
     GameObject player;
-   // public AudioClip hideSound;
+   
     public AudioSource hideSound;
     private Animator animator;
 
+    /// <summary>
+    /// This method gets the Animator component and sets it to animator so that it can be used in this script to animate the barrel.
+    /// </summary>
     void Start()
     {
         animator = GetComponent<Animator>();
     }
 
+    /// <summary>
+    /// This method works out whether or not the players rednerer/collider2D is enabled, if so then it is disabled when the player
+    /// presses H and is touching the barrel, it also gives the player the ability to pan the camera about in order to "plan ahead"
+    /// It also animates the barrel sptie and plays an audio clip
+    /// </summary>
 	void Update () 
     {
 		if (Input.GetKeyDown(KeyCode.H) && player)
@@ -34,7 +42,10 @@ public class HidingScript : MonoBehaviour
             
 		}
 	}
-
+    /// <summary>
+    /// This method sets the player to a gameObject so that we can use it in the update method
+    /// </summary>
+    /// <param name="col"></param>
 	void OnTriggerEnter2D(Collider2D col)
 	{
 		if (col.gameObject.tag==PlayerTag)
@@ -43,6 +54,10 @@ public class HidingScript : MonoBehaviour
             
 	}
 
+    /// <summary>
+    /// This method sets the player to null and animates the barrel sprite to the original one when the player leaves the barrel
+    /// </summary>
+    /// <param name="col"></param>
     void OnTriggerExit2D(Collider2D col)
     {
         if (col.gameObject.tag == PlayerTag)

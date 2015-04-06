@@ -7,11 +7,10 @@ public class PlayerScript : MonoBehaviour
     public float cameraVelocity = 1;
     public float cameraTravelDist = 1;
     public string PickupTag = "Pickup";
-    public string TeleportTag = "Teleport";
+   
     public string EnemyTag = "Enemy"; 
     public GameObject player;
-    public GameObject recievingSprite;
-    public GameObject sendingSprite;
+
 
     public string Key1Tag = "Key1";
     public string Door1Tag = "LockedDoor1";
@@ -64,6 +63,7 @@ public class PlayerScript : MonoBehaviour
             cameraTrans.localPosition = new Vector3(pos.x, pos.y, -10);
         }
 
+        //If the player presses space and is touching a pick up then destroy it, play audio and set keyPop up to false
         if (Input.GetKeyDown(KeyCode.Space) && pickup)
         {
             Destroy(pickup);
@@ -79,24 +79,31 @@ public class PlayerScript : MonoBehaviour
             GameController.Get().StartFadeOut(() => Application.LoadLevel(Application.loadedLevel + 1), Color.white);
             audio.PlayOneShot(heavenGates);
         }
-
+        //This part animates the players movements 
+        //UP
         if (dy > 0)
             animator.SetInteger("AnimState", 1);
+            //DOWN
         else if (dy < 0)
             animator.SetInteger("AnimState", 0);
+            //RIGHT
         else if (dx > 0)
             animator.SetInteger("AnimState", 2);
+            //LEFT
         else if (dx < 0)
             animator.SetInteger("AnimState", 3);
+            //IDLE
         else if (dx == 0 && dy == 0)
             animator.SetInteger("AnimState", -1);
             
+        //If the player is moving in the x-axis and there is no audio currently playing then play the foot step audio
         if (dx !=0 && !audio.isPlaying)
         {
             audio.clip = footSteps;
             audio.Play();
             
         }
+        //If the player is moving in the y-axis and there is no audio currently playing then play the foot step audio
         if (dy != 0&& !audio.isPlaying)
         {
             audio.clip = footSteps;
@@ -106,14 +113,14 @@ public class PlayerScript : MonoBehaviour
      
     }
 
+
     void OnTriggerEnter2D(Collider2D col)
     {
+        //this stores pickup as a gameObject so that it can be used in the update function
         if (col.tag == PickupTag)
             pickup = col.gameObject;
             
-        //Teleportation - this part of the script teleports the player from the selected position to the new position
-        if (col.tag == TeleportTag)
-            player.transform.position = recievingSprite.transform.position;
+       
 
         if (col.tag == EnemyTag)
         {
@@ -122,6 +129,8 @@ public class PlayerScript : MonoBehaviour
                 GameController.Get().StartFadeOut(() => Application.LoadLevel(Application.loadedLevel), Color.red);
         }
 
+        //if player collides with the key; destroy key, display pop up message, start timer and set key1Collected to true
+        //so that we know the player does indeed have the key
         if (col.tag == Key1Tag)
         {
             Destroy(col.gameObject);
@@ -131,7 +140,8 @@ public class PlayerScript : MonoBehaviour
             keyPopUpMessage = true;
             StartCoroutine(KeyMessageTimer());
         }
-
+        //gets the unity event that unlocks the door, if the player has the key, if not then it displays a message telling the
+        //player that they need the key to go through the door
         if (col.tag == Door1Tag)
         {
             if(key1Collected)
@@ -149,12 +159,20 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// This is the timer for the key pop up message
+    /// </summary>
+    /// <returns></returns>
     IEnumerator KeyMessageTimer()
     {
         yield return new WaitForSeconds(keyMessagePopTime);
         keyPopUpMessage = false;
     }
-
+    /// <summary>
+    /// This part is what happens when the player exits certain objects, for example when the player 
+    /// exits the barrel we set player to true, so that the players renderer and the collider2D comes back
+    /// </summary>
+    /// <param name="col"></param>
     void OnTriggerExit2D(Collider2D col)
     {
         if (col.tag == PickupTag)
@@ -165,6 +183,11 @@ public class PlayerScript : MonoBehaviour
             player.SetActive(true);
     }
 
+    /// <summary>
+    /// Displays messages:
+    /// 1 - for when the player collects the key
+    /// 2 - for when the player touches the door without the key
+    /// </summary>
     void OnGUI()
     {
         if (keyPopup)
