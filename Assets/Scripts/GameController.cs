@@ -33,6 +33,7 @@ public class GameController : MonoBehaviour
         blackText.Apply();
 
         pauseGameobject = GameObject.Find("Menu");
+        pauseGameobject.SetActive(false);
     }
 
     void Update()
