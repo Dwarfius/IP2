@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
     static GameController singleton;
     public static GameController Get() { return singleton; }
 
-    Texture2D blackText;
+    Texture2D whiteText;
     float alpha = 0;
     Color currentColor;
     int initPickupCount, pickupCount;
@@ -28,9 +28,9 @@ public class GameController : MonoBehaviour
         singleton = this;
 	    if(Application.loadedLevel == 0)
 		    OnLevelWasLoaded(0);
-        blackText = new Texture2D(1, 1);
-        blackText.SetPixel(1, 1, Color.white);
-        blackText.Apply();
+        whiteText = new Texture2D(1, 1);
+        whiteText.SetPixel(1, 1, Color.white);
+        whiteText.Apply();
 
         pauseGameobject = GameObject.Find("Menu");
         if(pauseGameobject)
@@ -52,7 +52,7 @@ public class GameController : MonoBehaviour
         {
             GUI.depth = -1;
             GUI.color = new Color(currentColor.r, currentColor.g, currentColor.b, alpha);
-            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), blackText);
+            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), whiteText);
         }
     }
 
